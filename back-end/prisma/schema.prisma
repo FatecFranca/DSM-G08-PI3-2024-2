@@ -9,6 +9,30 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mongodb"
   url      = env("DATABASE_URL")
+}
+
+model Empresa {
+  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  nome     String
+  senha    String
+  produtos Produto[]  @default([])         // Lista de produtos gerenciados pela empresa
+}
+
+model Produto {
+  id            String              @id @default(auto()) @map("_id") @db.ObjectId
+  nome          String
+  descricao     String?
+  quantidade    Int
+  preco         Float
+  movimentacoes MovimentacaoEstoque[] @default([])
+  status        String              // ativo, inativo
+}
+
+model MovimentacaoEstoque {
+  id                String   @default(auto()) @map("_id") @db.ObjectId
+  saida_entrada     String   // entrada, saída
+  quantidade        Int
+  data_movimentacao DateTime @default(now())
 }
