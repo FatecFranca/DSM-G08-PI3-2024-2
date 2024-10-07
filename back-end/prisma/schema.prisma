@@ -14,25 +14,29 @@ datasource db {
 }
 
 model Empresa {
-  id       String     @id @default(auto()) @map("_id") @db.ObjectId
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
   nome     String
   senha    String
-  produtos Produto[]  @default([])         // Lista de produtos gerenciados pela empresa
+  produtos Produto[]
 }
 
 model Produto {
-  id            String              @id @default(auto()) @map("_id") @db.ObjectId
+  id            String                @id @default(auto()) @map("_id") @db.ObjectId
   nome          String
   descricao     String?
   quantidade    Int
   preco         Float
-  movimentacoes MovimentacaoEstoque[] @default([])
-  status        String              // ativo, inativo
+  movimentacoes MovimentacaoEstoque[]
+  status        String
+  empresaId     String?               @db.ObjectId 
+  Empresa       Empresa?              @relation(fields: [empresaId], references: [id])
 }
 
 model MovimentacaoEstoque {
-  id                String   @default(auto()) @map("_id") @db.ObjectId
-  saida_entrada     String   // entrada, saída
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
+  saida_entrada     String
   quantidade        Int
   data_movimentacao DateTime @default(now())
+  Produto           Produto? @relation(fields: [produtoId], references: [id])
+  produtoId         String?  @db.ObjectId
 }
