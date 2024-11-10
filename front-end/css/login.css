@@ -1,0 +1,25 @@
+.navBar{
+    background-color: #2C3E50;
+}
+
+body{
+    background-color: #ffffff !important;
+}
+
+.texto-marca{
+    font-size: 32px;
+    font-weight: 500; 
+}
+
+.botao-loguin {
+    color: white;
+    background-color: #009AED;
+    border: none;
+    padding: 5px 0px;
+    font-size: 18px;
+    border-radius: 8px;
+}
+
+
+
+
