@@ -1,0 +1,77 @@
+.navbar{
+    background-color: #2C3E50;
+}
+
+#caixacadastro{
+        font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
+    box-shadow: 0px 0px 12px rgba(0, 0, 0, 0.1);
+   border-color: black;
+    margin-bottom: 20px;
+}
+
+
+
+
+
+.botao-confirm-cadastro {
+    background-color: #009AED;
+    border-radius: 4px;
+    border: none;
+    width: 200px;
+    height: 30px;
+    color: white;
+    margin-bottom: 10px;
+}
+
+#caixacadastro button:hover{
+    background-color: #210ba0;
+    transform: scale(1.1);
+}
+
+.config_cadastro {
+    display: flex;
+    flex-direction: row;
+}
+
+.formcadastro {
+    margin: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+form label {
+    min-height: 35px !important;
+}
+
+
+@media (max-width: 768px) {
+    .caixacadastro {
+        top: 90%;  
+        left: 40%;
+        transform: translate(-50%, -50%);
+        width: auto; 
+        max-width: 300px; 
+        padding: 15px; 
+        
+    }
+    .caixacadastro h1{
+        margin-left: 0;
+        margin-bottom: 1em;
+        font-size: 1em;
+        text-align: center;
+    }
+
+    form label {
+        font-size: 12px;
+    }
+
+
+}
+
+
+
+
+
+    
