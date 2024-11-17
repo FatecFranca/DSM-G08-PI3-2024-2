@@ -1,14 +1,12 @@
-.navbar{
-    background-color: #2C3E50;
-}
-
 body{
     background-color: #ffffff !important;
 }
 
 .texto-marca{
     font-size: 32px;
-    font-weight: 500; 
+    font-weight: 500;
+    color: #000000; 
+    margin-top: 32px;
 }
 
 .botao-loguin {
@@ -18,6 +16,24 @@ body{
     padding: 5px 0px;
     font-size: 18px;
     border-radius: 8px;
+}
+
+.bg-forms {
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3),  /* Sombra preta suave */
+    0px 2px 8px rgba(217, 217, 217, 0.5), /* Cinza claro mais disperso */
+    0px 1px 4px rgba(255, 255, 255, 0.7); /* Realce branco delicado */
+
+
+}
+
+.bg-forms form {
+    padding: 32px;
+}
+
+.form-label {
+    font-size: 18px;
+    font-weight: 500;
+    color: #000000; 
 }
 
 

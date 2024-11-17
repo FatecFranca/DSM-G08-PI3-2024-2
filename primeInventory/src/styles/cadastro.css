@@ -1,34 +1,23 @@
-.navbar {
-    background-color: #2C3E50;
-}
 
 #caixacadastro {
     font-family: system-ui, -apple-system, Helvetica, Arial, sans-serif;
-    box-shadow: 12px 10px 12px rgba(0, 0, 0, 0.1);
-    border-color: black;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3),  /* Sombra preta suave */
+    0px 2px 8px rgba(217, 217, 217, 0.5), /* Cinza claro mais disperso */
+    0px 1px 4px rgba(255, 255, 255, 0.7); /* Realce branco delicado */  
     margin-bottom: 20px;
-    border: 2px solid #2C3E50;     
     border-radius: 8px;             
     padding: 20px;     
     display: flex;
-     justify-content: center;
-     align-items: center;
-     flex-direction: column;
-     width: 50%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 50%;
     
-
+}
 label{
     text-align: center;
     color: #2C3E50;
 }
-
-
-
-}
-
-
-
-
 
 .botao-confirm-cadastro {
     background-color: #009AED;
@@ -86,4 +75,14 @@ form label {
     }
 
 
+}
+
+.form-control {
+    display: inline-block;
+}
+
+.text-confirm {
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
 }

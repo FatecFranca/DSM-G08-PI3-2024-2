@@ -1,46 +1,6 @@
-.navBar .nav-item .nav-link{
-    color: #FFFFFF;
-}
-
-.nav-item .nav-link {
-    color: #ffffff;
-    text-decoration: none;
-    display: flex;
-    align-items: flex-end;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    padding: 8px 12px;
-    border-radius: 4px;
-  }
-  
-  .nav-item .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.1);
-    color: #050505; 
-  }
-
-
-.navbar {
-   
-    
-    border-bottom: 5px solid white;
-}
-  
-.navbar-toggler-custom .navbar-toggler-icon {
-    background-image: url('data:image/svg+xml;charset=UTF8,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30"%3E%3Cpath stroke="rgba%28255, 255, 255, 1%29" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"/%3E%3C/svg%3E');
-    
-  }
-  
-.navbar-toggler-custom {
-    border: 1px solid white; 
-}
-#navBar {
-    background-color: #2C3E50;
-
-}
-
 #informacoes-plataforma {
     background-color: #2C3E50;
 }
-
 
 #informacoes-plataforma h2 {
     font-size: 45px;

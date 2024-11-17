@@ -1,0 +1,32 @@
+/* Exemplo de animação para o menu lateral */
+.bg-light {
+    transition: transform 0.3s ease;
+  }
+  
+  .bg-light.d-block {
+    transform: translateX(0);
+  }
+  
+  .bg-light.d-none {
+    transform: translateX(-100%);
+  }
+
+.section-edition {
+    height: 100vh;
+    background-color: #2C3E50;
+}
+
+.bg-menu-mob {
+    background-color: #2C3E50;
+}
+
+.btn-white {
+    color: #ffffff; 
+    border: 1px solid #ddd; 
+  }
+  
+  .btn-white:hover {
+    color: #ffffff;
+    border: 1px solid #ddd; 
+  }
+  
