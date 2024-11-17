@@ -1,24 +1,33 @@
-import { Router } from 'express'
-const router = Router()
+import { Router } from 'express';
+import { PrismaClient } from '@prisma/client';
 
-/* GET all users. */
-router.get('/', function (req, res) {
-  res.send('Fetched all users')
-})
+const router = Router();
+const prisma = new PrismaClient();
 
-/* POST a user. */
-router.post('/', function (req, res) {
-  res.send('Created a user')
-})
+/* POST um usuário */
+router.post('/', async (req, res) => {
+  try {
+    const { nome, email, cpf, senha } = req.body;
 
-/* PATCH a user. */
-router.patch('/', function (req, res) {
-  res.send('Updated a user')
-})
+    // Criando um novo usuário
+    const novoUsuario = await prisma.usuario.create({
+      data: {
+        nome,
+        email,
+        cpf,
+        senha,
+      },
+    });
 
-/* DELETE a user. */
-router.delete('/', function (req, res) {
-  res.send('Deleted a user')
-})
+    // Retorna o usuário criado
+    res.status(201).json(novoUsuario);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Erro ao criar usuário');
+  } finally {
+    // Fecha a conexão com o banco de dados
+    await prisma.$disconnect();
+  }
+});
 
-export default router
+export default router;

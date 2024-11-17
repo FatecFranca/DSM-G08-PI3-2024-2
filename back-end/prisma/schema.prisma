@@ -52,3 +52,4 @@ model Usuario {
   senha String?
   movimentacoes MovimentacaoEstoque[]
 }
+
