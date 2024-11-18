@@ -1,28 +1,32 @@
-import express, { json, urlencoded } from 'express';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
-import prisma from './prismaClient.js';  // Importando a instância do Prisma Client
-import indexRouter from './routes/index.js';
-import usersRouter from './routes/users.js';
+import express, { json, urlencoded } from 'express'
+import cookieParser from 'cookie-parser'
+import logger from 'morgan'
 
-const app = express();
+import indexRouter from './routes/index.js'
+import usersRouter from './routes/users.js'
 
-// Middleware para processar JSON no corpo da requisição
-app.use(logger('dev'));
-app.use(json());  // Middleware para processar dados em JSON
-app.use(urlencoded({ extended: false })); // Middleware para processar dados de formulários
-app.use(cookieParser());
+const app = express()
 
-// Rotas
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use(logger('dev'))
+app.use(json())
+app.use(urlencoded({ extended: false }))
+app.use(cookieParser())
 
-// Configuração do servidor para escutar na porta 3000 ou qualquer porta definida nas variáveis de ambiente
-const port = process.env.PORT || 3000;
+app.use('/', indexRouter)
+app.use('/users', usersRouter)
 
-// Iniciar o servidor e mostrar no console
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
+/*************** ROTAS *******************/
 
-export default app;
+import movimentacoesRouter from './routes/movimentacaoEstoque.js'
+app.use('/movimentacoes', movimentacoesRouter)
+
+import usuariosRouter from './routes/usuario.js'
+app.use('/usuarios', usuariosRouter)
+
+import empresasRouter from './routes/empresa.js'
+app.use('/empresas', empresasRouter)
+
+import produtosRouter from './routes/produtos.js'
+app.use('/produtos', produtosRouter)
+
+export default app

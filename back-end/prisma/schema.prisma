@@ -29,7 +29,7 @@ model Produto {
   movimentacoes MovimentacaoEstoque[]
   status        String
   empresaId     String?               @db.ObjectId 
-  Empresa       Empresa?              @relation(fields: [empresaId], references: [id])
+  empresa       Empresa?              @relation(fields: [empresaId], references: [id])
 }
 
 model MovimentacaoEstoque {
