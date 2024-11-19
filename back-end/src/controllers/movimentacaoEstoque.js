@@ -33,11 +33,8 @@ controller.retrieveAll = async function(req, res) {
 
     // Manda buscar os dados no servidor
     const result = await prisma.movimentacaoEstoque.findMany({
-<<<<<<< Updated upstream
-      orderBy: [ { descricao: 'asc' } ],
-=======
+
       orderBy: [ { data_movimentacao: 'asc' } ],
->>>>>>> Stashed changes
       include
     })
 
