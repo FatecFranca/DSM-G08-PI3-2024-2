@@ -5,26 +5,44 @@ const controller = {}     // Objeto vazio
 
 controller.create = async function(req, res) {
   try {
-    /*
-      Conecta-se ao BD e envia uma instrução de
-      criação de um novo documento, com os dados
-      que estão dentro de req.body
-    */
-    await prisma.movimentacaoEstoque.create({ data: req.body })
+    const { saida_entrada, quantidade, produtoId } = req.body;
 
-    // Envia uma resposta de sucesso ao front-end
-    // HTTP 201: Created
-    res.status(201).end()
-  }
-  catch(error) {
-    // Deu errado: exibe o erro no console do back-end
-    console.error(error)
+    // Faz a conferência se os dados foram inseridos
+    if (!produtoId || !quantidade || !saida_entrada) {
+      return res.status(400).json({ message: 'Todos os campos são obrigatórios: produtoId, quantidade, e saida_entrada.' });
+    }
 
-    // Envia o erro ao front-end, com status 500
-    // HTTP 500: Internal Server Error
-    res.status(500).send(error)
+    // Cria a movimentação de estoque
+    await prisma.movimentacaoEstoque.create({ data: req.body });
+
+    // Busca o produto atual
+    const produto = await prisma.produto.findUnique({ where: { id: produtoId } });
+    if (!produto) {
+      return res.status(404).json({ message: 'Produto não encontrado.' });
+    }
+
+    // Calcula o novo saldo
+    const novaQuantidade =
+      saida_entrada === 'entrada'
+        ? produto.quantidade + quantidade
+        : produto.quantidade - quantidade;
+
+    // Atualiza o saldo do produto
+    if (novaQuantidade < 0) {
+      return res.status(400).json({ message: 'Saldo insuficiente para a saída.' });
+    }
+
+    await prisma.produto.update({
+      where: { id: produtoId },
+      data: { quantidade: novaQuantidade },
+    });
+
+    res.status(201).json({ message: 'Movimentação registrada e saldo atualizado com sucesso.' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro interno no servidor.', error });
   }
-}
+};
 
 controller.retrieveAll = async function(req, res) {
   try {
