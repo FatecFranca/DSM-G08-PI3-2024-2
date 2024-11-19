@@ -18,4 +18,8 @@ router.patch('/:id', controller.update);
 /* DELETE a user by ID */
 router.delete('/:id', controller.delete);
 
+// LOGIN
+router.post('/login', controller.login); // Rota POST para o login
+
+
 export default router;

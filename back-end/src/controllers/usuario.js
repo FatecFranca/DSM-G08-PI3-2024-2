@@ -28,6 +28,39 @@ controller.create = async function(req, res) {
 };
 
 
+controller.login = async function (req, res) {
+  try {
+    const { email, senha } = req.body;
+
+    // Busca o usuário pelo email
+    const usuario = await prisma.usuario.findUnique({
+      where: { email },
+    });
+
+    // Verifica se o usuário foi encontrado
+    if (!usuario) {
+      return res.status(401).json({ message: 'Email ou senha incorretos.' });
+    }
+
+    // Verifica a senha
+    if (usuario.senha !== senha) {
+      return res.status(401).json({ message: 'Email ou senha incorretos.' });
+    }
+
+    // Retorna o `id` do usuário autenticado
+    res.status(200).json({
+      message: 'Login realizado com sucesso!',
+      userId: usuario.id, // Aqui está o ObjectID
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erro interno no servidor.' });
+  }
+};
+
+
+
+
 controller.retrieveAll = async function(req, res) {
   try {
     // Manda buscar os dados no servidor

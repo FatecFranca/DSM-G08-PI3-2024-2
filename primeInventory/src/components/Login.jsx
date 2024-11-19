@@ -1,11 +1,46 @@
-import { Link } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import 'tiny-slider/dist/tiny-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/login.css'
 
 
 const Login = () => {
-  return (
+  const navigate = useNavigate();
+
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+
+    const userData = {
+      email: formData.get('email'),
+      senha: formData.get('senha'),
+    };
+
+    try {
+      const response = await fetch('http://localhost:8080/api/users/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (response.ok) {
+        alert("Login realizado com sucesso")
+        const data = await response.json();
+        localStorage.setItem('userId', data.userId);
+        navigate('/Gerenciamento');
+      } else {
+        const errorData = await response.json();
+        alert(errorData.message || 'Erro ao fazer login');
+      }
+    } catch (error) {
+      console.error('Erro na conexão:', error);
+      alert('Não foi possível conectar ao servidor.');
+    }
+  };
+
+  return  (
     <div>
       <main>
         <div className="container-xxl">
@@ -23,7 +58,7 @@ const Login = () => {
                     <div className="col-12 mt-3">
                       <h4 className="text-center">Faça seu login</h4>
                     </div>
-                    <form action="/login" method="post">
+                    <form  onSubmit={handleLogin}>
                       <div className="mb-5">
                         <label htmlFor="email" className="form-label">
                           Email:

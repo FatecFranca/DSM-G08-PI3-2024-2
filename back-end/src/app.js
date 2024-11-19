@@ -13,6 +13,13 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.json());  // Certifique-se de que o middleware está aqui
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Permite acesso de qualquer origem
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE'); // Permite métodos HTTP
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization'); // Permite os cabeçalhos específicos
+  next();
+});
+
 
 
 // Rota para a página inicial, para testar se a API está funcionando
