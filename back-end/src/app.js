@@ -2,6 +2,7 @@ import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
+
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';  // Certifique-se de que a rota 'users' está sendo carregada
 

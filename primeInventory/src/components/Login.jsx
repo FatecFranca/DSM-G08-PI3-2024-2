@@ -2,10 +2,27 @@ import { Link,useNavigate } from 'react-router-dom';
 import 'tiny-slider/dist/tiny-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/login.css'
+import 'react-toastify/dist/ReactToastify.css';
+import Notification from './Notification';
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 
 const Login = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate();const handleLoginSuccess = () => {
+    toast.success('Login realizado com sucesso! Você está sendo redirecionado para o gerenciamento', {
+      position: 'top-right',
+      autoClose: 3000,
+    });
+  };
+  const handleLoginError = () => {
+    toast.error('Erro ao realizar login. Tente novamente!', {
+      position: 'top-right',
+      autoClose: 3000,
+    });
+  };
+
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -26,19 +43,24 @@ const Login = () => {
       });
 
       if (response.ok) {
-        alert("Login realizado com sucesso")
+        handleLoginSuccess();
         const data = await response.json();
         localStorage.setItem('userId', data.userId);
-        navigate('/Gerenciamento');
+        setTimeout(() => {
+          navigate('/gerenciamento');
+        }, 4000);
       } else {
+        handleLoginError();
+
         const errorData = await response.json();
-        alert(errorData.message || 'Erro ao fazer login');
       }
     } catch (error) {
       console.error('Erro na conexão:', error);
       alert('Não foi possível conectar ao servidor.');
     }
   };
+
+  
 
   return  (
     <div>
@@ -96,7 +118,11 @@ const Login = () => {
                           <strong>Inscreva-se agora</strong>
                         </Link>
                       </p>
+
                     </form>
+                    <ToastContainer />
+                    <Notification />
+
                   </div>
                 </div>
               </div>

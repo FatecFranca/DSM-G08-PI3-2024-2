@@ -4,12 +4,30 @@ import 'tiny-slider/dist/tiny-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../styles/gerenciamento.css';
+import { useEffect } from 'react';
+
+import Loader from './Loader';
+
 
 const Gerenciamento = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  
+
+
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
+  }
+  useEffect(() => {
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3800);
+  }, []);
+
+  if (isLoading) {
+    return <Loader />;
   };
 
   return (
