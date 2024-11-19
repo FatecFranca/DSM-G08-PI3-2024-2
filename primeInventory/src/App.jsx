@@ -6,7 +6,6 @@ import AppRoutes from './routes/AppRoutes';
 import Header from './components/Header'; 
 import InformacoesPlataforma, { InformacoesEmpresa } from './components/Page';
 import 'react-toastify/dist/ReactToastify.css';
-import Notification from './components/Notification';
 
 import './styles/navbar.css';
 import './styles/home.css';
@@ -22,8 +21,7 @@ const App = () => {
         <>
           <InformacoesPlataforma />
           <InformacoesEmpresa />
-          <ToastContainer />
-          <Notification/>
+          
 
 
 
