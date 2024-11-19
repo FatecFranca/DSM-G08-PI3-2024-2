@@ -29,4 +29,25 @@
     color: #ffffff;
     border: 1px solid #ddd; 
   }
-  
+
+.lista-crud-da-aplicacao {
+  margin: 8px 0px;
+} 
+
+.lista-crud-da-aplicacao a {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.lista-crud-da-aplicacao a:hover {
+  color: #E74C3C;
+} 
+
+.sair-gerenciamento {
+  list-style: none;
+
+}
+
+.sair-gerenciamento .nav-item .nav-link {
+  padding: 0px;
+}

@@ -81,6 +81,8 @@ function onError(error) {
 
 function onListening() {
   let addr = server.address()
-  let bind = typeof addr === 'string' ? `pipe  ${addr}` : `port ${addr.port}`
-  console.log(chalk.cyan(`Listening on ${bind}.`))
+  let host = addr.address === '::' ? 'localhost' : addr.address // Corrige endereço '::' para 'localhost'.
+  let bind = `http://${host}:${addr.port}`
+
+  console.log(chalk.green(`Servidor rodando em ${bind}`))
 }
