@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import { useState } from 'react'; 
 import { Link } from 'react-router-dom';
 import 'tiny-slider/dist/tiny-slider.css';
@@ -9,14 +8,6 @@ import { useEffect } from 'react';
 
 import Loader from './Loader';
 
-=======
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import "tiny-slider/dist/tiny-slider.css";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import "../styles/gerenciamento.css";
->>>>>>> 24ce4100706d05d757384828b5b60bd580e6b45f
 
 const Gerenciamento = () => {
   const [menuOpen, setMenuOpen] = useState(false);
