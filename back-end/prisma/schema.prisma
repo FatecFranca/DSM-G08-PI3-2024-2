@@ -13,13 +13,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Empresa {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  nome     String
-  senha    String
-  produtos Produto[]
-}
-
 model Produto {
   id            String                @id @default(auto()) @map("_id") @db.ObjectId
   nome          String
@@ -28,8 +21,8 @@ model Produto {
   preco         Float
   movimentacoes MovimentacaoEstoque[]
   status        String
-  empresaId     String?               @db.ObjectId 
-  empresa       Empresa?              @relation(fields: [empresaId], references: [id])
+  usuarioId     String                @db.ObjectId
+  usuario       Usuario               @relation(fields: [usuarioId], references: [id])
 }
 
 model MovimentacaoEstoque {
@@ -39,17 +32,13 @@ model MovimentacaoEstoque {
   data_movimentacao DateTime @default(now())
   Produto           Produto? @relation(fields: [produtoId], references: [id])
   produtoId         String?  @db.ObjectId
-  usuarioId         String   @db.ObjectId
-  usuario           Usuario?  @relation(fields: [usuarioId], references: [id]) 
 }
-
 
 model Usuario {
-  id    String @id @default(auto()) @map("_id") @db.ObjectId
-  nome  String?
-  email String @unique
-  cpf   String @unique
-  senha String?
-  movimentacoes MovimentacaoEstoque[]
-}
-
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  nome          String?
+  email         String     @unique
+  cpf           String     @unique
+  senha         String?
+  Produto       Produto[]
+} 

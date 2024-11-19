@@ -38,9 +38,6 @@ app.use('/api/movimentacoes', movimentacoesRouter);
 import usuariosRouter from './routes/usuario.js';  // Aqui, você está tentando usar '/usuarios'
 app.use('/api/usuarios', usuariosRouter);
 
-import empresasRouter from './routes/empresa.js';
-app.use('/api/empresas', empresasRouter);
-
 import produtosRouter from './routes/produtos.js';
 app.use('/api/produtos', produtosRouter);
 
