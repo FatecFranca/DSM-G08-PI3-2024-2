@@ -14,13 +14,19 @@
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.8.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
     "eslint": "^9.8.0",
-    "nodemon": "^3.1.4",
+    "nodemon": "^3.1.7",
     "prettier": "^3.3.3",
     "prisma": "^5.22.0"
   },
-  "type": "module"
+  "type": "module",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }

@@ -1,24 +1,21 @@
-import { Router } from 'express'
-const router = Router()
+import { Router } from 'express';
+import controller from '../controllers/usuario.js';
 
-/* GET all users. */
-router.get('/', function (req, res) {
-  res.send('Fetched all users')
-})
+const router = Router();
 
-/* POST a user. */
-router.post('/', function (req, res) {
-  res.send('Created a user')
-})
+/* GET all users */
+router.get('/', controller.retrieveAll);
 
-/* PATCH a user. */
-router.patch('/', function (req, res) {
-  res.send('Updated a user')
-})
+/* GET a specific user by ID */
+router.get('/:id', controller.retrieveOne);
 
-/* DELETE a user. */
-router.delete('/', function (req, res) {
-  res.send('Deleted a user')
-})
+/* POST a new user */
+router.post('/register', controller.create);
 
-export default router
+/* PATCH (update) a user by ID */
+router.patch('/:id', controller.update);
+
+/* DELETE a user by ID */
+router.delete('/:id', controller.delete);
+
+export default router;

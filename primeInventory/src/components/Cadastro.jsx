@@ -7,9 +7,9 @@ import IMask from 'imask';
 
 const Cadastro = () => {
   React.useEffect(() => {
-    const cpfInput = document.getElementById('cpfInput');
-    if (cpfInput) {
-      IMask(cpfInput, { mask: '000.000.000-00' });
+    const cpf = document.getElementById('cpf');
+    if (cpf) {
+      IMask(cpf, { mask: '000.000.000-00' });
     }
   }, []);
 
@@ -26,26 +26,27 @@ const Cadastro = () => {
           <div className="col-12" id="caixacadastro">
             <h2 className="text-center">Faça seu cadastro</h2>
 
-            <form className="form-group" action="/cadastro" method="post">
+            <form className="form-group" action="http://localhost:8080/api/users/register" method="post">
+
               <div className="col-12 mb-4">
                 <label  htmlFor="newEmail">
                   E-mail:
                 </label>
-                <input className="form-control" type="email" id="newEmail" name="newEmail" required />
+                <input className="form-control" type="email" id="email" name="email" required />
               </div>
 
               <div className="col-12 mb-4">
                 <label className="" htmlFor="newSenha">
                   Senha:
                 </label>
-                <input className="form-control" type="password" id="newSenha" name="newSenha" required />
+                <input className="form-control" type="password" id="senha" name="senha" required />
               </div>
 
               <div className="col-12 mb-4">
                 <label className="" htmlFor="newName">
                   Nome completo:
                 </label>
-                <input className="form-control" type="text" id="newName" name="newName" required />
+                <input className="form-control" type="text" id="nome" name="nome" required />
               </div>
 
               <div className="col-12 mb-4">
@@ -55,8 +56,8 @@ const Cadastro = () => {
                 <input
                   className="form-control"
                   type="text"
-                  id="cpfInput"
-                  name="newCpf"
+                  id="cpf"
+                  name="cpf"
                   maxLength="14"
                   required
                 />
