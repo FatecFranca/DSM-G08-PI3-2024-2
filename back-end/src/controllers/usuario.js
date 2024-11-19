@@ -1,9 +1,9 @@
-import prisma from '../database/client.js'
+import prisma from '../database/client.js';
 
-const controller = {}     // Objeto vazio
+const controller = {}; // Objeto vazio para os métodos do controlador
 
-
-controller.create = async function(req, res) {
+// Método para criar um novo usuário
+controller.create = async function (req, res) {
   try {
     const { nome, email, cpf, senha } = req.body;
 
@@ -11,7 +11,7 @@ controller.create = async function(req, res) {
       return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
     }
 
-    const user = await prisma.Usuario.create({
+    const user = await prisma.usuario.create({
       data: {
         nome,
         email,
@@ -27,7 +27,7 @@ controller.create = async function(req, res) {
   }
 };
 
-
+// Método para login de usuário
 controller.login = async function (req, res) {
   try {
     const { email, senha } = req.body;
@@ -58,77 +58,67 @@ controller.login = async function (req, res) {
   }
 };
 
-
-
-
-controller.retrieveAll = async function(req, res) {
+// Método para recuperar todos os usuários
+controller.retrieveAll = async function (req, res) {
   try {
-    // Manda buscar os dados no servidor
     const result = await prisma.usuario.findMany({
-      orderBy: [ { nome: 'asc' } ]
-    })
+      orderBy: [{ nome: 'asc' }],
+    });
 
-    res.send(result)
+    res.send(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
   }
-  catch(error) {
-    console.error(error)
+};
 
-    res.status(500).send(error)
-  }
-}
-
-controller.retrieveOne = async function(req, res) {
+// Método para recuperar um único usuário pelo ID
+controller.retrieveOne = async function (req, res) {
   try {
     const result = await prisma.usuario.findUnique({
-      where: { id: req.params.id }
-    })
+      where: { id: req.params.id },
+    });
 
-    if(result) res.send(result)
-    else res.status(404).end()
+    if (result) res.send(result);
+    else res.status(404).end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
   }
-  catch(error) {
-    console.error(error)
+};
 
-    res.status(500).send(error)
-  }
-}
-
-controller.update = async function(req, res) {
+// Método para atualizar os dados de um usuário pelo ID
+controller.update = async function (req, res) {
   try {
     const result = await prisma.usuario.update({
       where: { id: req.params.id },
-      data: req.body
-    })
+      data: req.body,
+    });
 
-    if(result) res.status(204).end()
-    else res.status(404).end()
+    if (result) res.status(204).end();
+    else res.status(404).end();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error);
   }
-  catch(error) {
-    console.error(error)
+};
 
-    res.status(500).send(error)
-  }
-}
-
-controller.delete = async function(req, res) {
+// Método para deletar um usuário pelo ID
+controller.delete = async function (req, res) {
   try {
     await prisma.usuario.delete({
-      where: { id: req.params.id }
-    })
+      where: { id: req.params.id },
+    });
 
-    res.status(204).end()
-
-  }
-  catch(error) {
-    if(error?.code === 'P2025') {   
-      res.status(404).end()
-    }
-    else {
-      console.error(error)
-
-      res.status(500).send(error)
+    res.status(204).end();
+  } catch (error) {
+    if (error?.code === 'P2025') {
+      res.status(404).end(); // Código de erro para registro não encontrado
+    } else {
+      console.error(error);
+      res.status(500).send(error);
     }
   }
-}
+};
 
-export default controller
+export default controller;
