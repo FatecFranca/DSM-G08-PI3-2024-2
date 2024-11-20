@@ -21,6 +21,16 @@ const Gerenciamento = () => {
     status: "ativo",
     usuarioId: "",
   });
+  const handleLogout = () => {
+    localStorage.removeItem("userId")
+    toast.info("Você foi desconectado.", {
+      position: "top-right",
+      autoClose: 1000,
+    });
+    setTimeout(() => {
+      navigate("/login"); // Redireciona para a página de login
+    }, 1500);
+  };
 
   const navigate = useNavigate();
 
@@ -222,8 +232,9 @@ const Gerenciamento = () => {
             {" "}
             <li className="nav-item">
               {" "}
-              <Link className="nav-link"     >
+              <Link className="nav-link"    onClick={handleLogout} >
                 {" "}
+                
                 <img
                    
                   src="img/icon-sair.png"
@@ -232,6 +243,7 @@ const Gerenciamento = () => {
                     maxWidth: "20px",
                     filter: "invert(1)",
                     mixBlendMode: "difference",
+                    
                   }}
                   className="me-1"
                 />{" "}
