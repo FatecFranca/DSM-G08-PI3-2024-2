@@ -1,11 +1,17 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  server: {
-    port: 5173,  // Garantir que a aplicação use a porta 5173
-    host: true,  // Permitir que o Vite seja acessado por outras máquinas
+  build: {
+    outDir: 'dist',  // Diretório onde os arquivos de build serão gerados
   },
-})
+  server: {
+    port: 5173,  // Porta de desenvolvimento do Vite
+    host: true,  // Permite que o Vite seja acessado por outras máquinas
+    proxy: {
+      '/api': 'http://localhost:5000',  // Proxy para direcionar as requisições API para o backend
+    },
+  },
+});
