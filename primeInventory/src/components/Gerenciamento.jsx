@@ -8,6 +8,8 @@ import Loader from "./Loader";
 import { toast } from "react-toastify";toast
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ImprimirProdutos from "./ImprimirProdutos";
+
 
 const userId = localStorage.getItem("userId");
 
@@ -276,6 +278,16 @@ const Gerenciamento = () => {
               Adicionar
             </button>
           </form>
+
+          <ul className="mt-5 d-flex p-0">
+          <li className="nav-link">
+          
+          <ImprimirProdutos produtos={produtos}/>
+
+          </li>
+          </ul>
+          
+
 
           <ul style={{ padding: "0px" }} className="sair-gerenciamento mt-5">
             {" "}
