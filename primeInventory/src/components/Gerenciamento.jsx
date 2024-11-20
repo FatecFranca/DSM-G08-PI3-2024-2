@@ -69,6 +69,47 @@ const Gerenciamento = () => {
     }));
   };
 
+  const handleEditar = (id) => {
+    const produtoParaEditar = produtos.find((produto) => produto.id === id);
+    if (produtoParaEditar) {
+      setFormData({
+        id: produtoParaEditar.id, // Inclua o ID no formData
+        nome: produtoParaEditar.nome,
+        descricao: produtoParaEditar.descricao,
+        quantidade: produtoParaEditar.quantidade,
+        preco: produtoParaEditar.preco,
+        status: produtoParaEditar.status,
+        usuarioId: produtoParaEditar.usuarioId,
+      });
+    }
+  };
+  
+
+  const handleDeletar = async (id) => {
+    if (window.confirm("Tem certeza de que deseja deletar este produto?")) {
+      try {
+        const response = await fetch(`http://localhost:8080/api/produtos/${id}`, {
+          method: "DELETE",
+        });
+  
+        if (response.ok) {
+          toast.success('Produto deletado com sucesso!', {
+            position: 'top-right',
+            autoClose: 1000,
+          });
+          fetchProdutos(); // Atualiza a lista de produtos após deletar
+        } else {
+          alert("Erro ao deletar o produto.");
+        }
+      } catch (error) {
+        console.error("Erro ao conectar-se ao servidor:", error);
+        alert("Erro ao deletar o produto.");
+      }
+    }
+  };
+  
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const quantityAsInt = parseInt(formData.quantidade, 10);
@@ -77,35 +118,41 @@ const Gerenciamento = () => {
       alert("Quantidade ou preço devem ser números válidos.");
       return;
     }
-
+  
     const usuarioId = localStorage.getItem("userId");
     if (!usuarioId) {
       alert("Usuário não autenticado. Faça login para continuar.");
       return;
     }
-
+  
     const updatedFormData = {
       ...formData,
       quantidade: quantityAsInt,
       preco: priceAsFloat,
       usuarioId: usuarioId,
     };
-
+  
     try {
-      const response = await fetch("http://localhost:8080/api/produtos", {
-        method: "POST",
+      const method = formData.id ? "PUT" : "POST";
+      const url = formData.id
+        ? `http://localhost:8080/api/produtos/${formData.id}`
+        : "http://localhost:8080/api/produtos";
+  
+      const response = await fetch(url, {
+        method,
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(updatedFormData),
       });
-
+  
       if (response.ok) {
-        toast.success('Produto cadastrado com sucesso', {
+        toast.success('Operação realizada com sucesso!', {
           position: 'top-right',
           autoClose: 1000,
         });
         setFormData({
+          id: "", // Limpa o ID
           nome: "",
           descricao: "",
           quantidade: "",
@@ -113,17 +160,18 @@ const Gerenciamento = () => {
           status: "ativo",
           usuarioId: "",
         });
-        fetchProdutos(); // Atualiza a lista de produtos após adicionar um novo
+        fetchProdutos(); // Atualiza a lista de produtos
       } else {
         const errorData = await response.json();
         console.error(errorData);
-        alert("Erro ao adicionar o produto.");
+        alert("Erro ao processar a operação.");
       }
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao conectar-se ao servidor.");
     }
   };
+  
 
   if (isLoading) {
     return <Loader />;
