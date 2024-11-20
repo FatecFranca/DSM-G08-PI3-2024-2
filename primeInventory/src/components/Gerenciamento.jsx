@@ -7,8 +7,14 @@ import "../styles/gerenciamento.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Loader from "./Loader";
+import { toast } from "react-toastify";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 const Gerenciamento = () => {
+
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,6 +37,13 @@ const Gerenciamento = () => {
       }, 2000);
     }
   }, [navigate]);
+  const handleLogout = () => {
+    // Remove o ID do usuário da sessão
+    localStorage.removeItem("userId");
+  
+    // Redireciona para a página inicial ou de login
+    navigate("/", { replace: true });
+  };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
@@ -91,8 +104,12 @@ const Gerenciamento = () => {
       });
   
       if (response.ok) {
-        alert("Produto adicionado com sucesso!");
-        setFormData({
+        toast.success('Produto cadastrado com sucesso', {
+          position: 'top-right',
+          autoClose: 1000,
+        });
+
+              setFormData({
           nome: "",
           descricao: "",
           quantidade: "",
@@ -103,7 +120,10 @@ const Gerenciamento = () => {
       } else {
         const errorData = await response.json();
         console.error(errorData);
-        alert("Erro ao adicionar o produto.");
+        toast.warning('Produto Não cadastrado! Verifique os campos', {
+          position: 'top-right',
+          autoClose: 1000,
+        });
       }
     } catch (error) {
       console.error("Erro:", error);
@@ -120,6 +140,7 @@ const Gerenciamento = () => {
 
   return (
     <div className="container-fluid">
+
       <div className="row">
         <div
           className="col-12 d-lg-none bg-menu-mob"
@@ -211,9 +232,10 @@ const Gerenciamento = () => {
             {" "}
             <li className="nav-item">
               {" "}
-              <Link className="nav-link" to="/">
+              <Link className="nav-link"  onClick={handleLogout} >
                 {" "}
                 <img
+                 onClick={handleLogout}
                   src="img/icon-sair.png"
                   alt="Logout Icon"
                   style={{
@@ -234,7 +256,10 @@ const Gerenciamento = () => {
           <p>Aqui está o conteúdo de gerenciamento.</p>
         </div>
       </div>
+      <ToastContainer />
+
     </div>
+    
   );
 };
 
