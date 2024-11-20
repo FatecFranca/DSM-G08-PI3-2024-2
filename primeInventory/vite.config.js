@@ -11,7 +11,7 @@ export default defineConfig({
     port: 5173,  // Porta de desenvolvimento do Vite
     host: true,  // Permite que o Vite seja acessado por outras máquinas
     proxy: {
-      '/api': 'http://localhost:10000',  // Proxy para direcionar as requisições API para o backend
+      '/api': 'https://dsm-g08-pi3-2024-2-backend.onrender.com',  // Proxy para direcionar as requisições API para o backend
     },
   },
 });
