@@ -92,7 +92,7 @@ const Gerenciamento = () => {
         quantidade: produtoParaEditar.quantidade,
         preco: produtoParaEditar.preco,
         status: produtoParaEditar.status,
-        usuarioId: produtoParaEditar.usuarioId,
+        usuarioId: produtoParaEditar.usuarioId, // Não perca o usuarioId
       });
     }
   };
@@ -125,8 +125,10 @@ const Gerenciamento = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+  
     const quantityAsInt = parseInt(formData.quantidade, 10);
     const priceAsFloat = parseFloat(formData.preco);
+  
     if (isNaN(quantityAsInt) || isNaN(priceAsFloat)) {
       alert("Quantidade ou preço devem ser números válidos.");
       return;
@@ -142,8 +144,13 @@ const Gerenciamento = () => {
       ...formData,
       quantidade: quantityAsInt,
       preco: priceAsFloat,
-      usuarioId: usuarioId,
+      usuarioId,
     };
+  
+    // Remova o campo id se for um novo produto
+    if (!formData.id) {
+      delete updatedFormData.id;
+    }
   
     try {
       const method = formData.id ? "PUT" : "POST";
@@ -160,20 +167,20 @@ const Gerenciamento = () => {
       });
   
       if (response.ok) {
-        toast.success('Operação realizada com sucesso!', {
-          position: 'top-right',
+        toast.success("Operação realizada com sucesso!", {
+          position: "top-right",
           autoClose: 1000,
         });
         setFormData({
-          id: "", // Limpa o ID
+          id: "",
           nome: "",
           descricao: "",
           quantidade: "",
           preco: "",
           status: "ativo",
-          usuarioId: "",
+          usuarioId,
         });
-        fetchProdutos(userId); // Atualiza a lista de produtos
+        fetchProdutos(usuarioId); // Atualiza a lista de produtos
       } else {
         const errorData = await response.json();
         console.error(errorData);
@@ -184,6 +191,7 @@ const Gerenciamento = () => {
       alert("Erro ao conectar-se ao servidor.");
     }
   };
+  
   
 
   if (isLoading) {

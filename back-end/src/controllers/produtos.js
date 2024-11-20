@@ -3,16 +3,23 @@ import { includeRelations } from '../lib/utils.js'
 
 const controller = {}     // Objeto vazio
 
-controller.create = async function(req, res) {
+controller.create = async function (req, res) {
   try {
-    await prisma.produto.create({ data: req.body })
-    res.status(201).end()
+    const { id, ...data } = req.body; // Remove o campo id do req.body
+
+    // Validação do usuarioId
+    if (!data.usuarioId || data.usuarioId.length !== 24) {
+      return res.status(400).send({ error: "Parâmetro 'usuarioId' inválido ou ausente." });
+    }
+
+    await prisma.produto.create({ data });
+    res.status(201).end();
+  } catch (error) {
+    console.error("Erro ao criar produto:", error);
+    res.status(500).send(error);
   }
-  catch(error) {
-    console.error(error)
-    res.status(500).send(error)
-  }
-}
+};
+
 
 controller.retrieveAll = async function(req, res) {
   try {
