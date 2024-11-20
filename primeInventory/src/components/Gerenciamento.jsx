@@ -1,23 +1,18 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import "tiny-slider/dist/tiny-slider.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "../styles/gerenciamento.css";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
 import Loader from "./Loader";
-import { toast } from "react-toastify";
+import { toast } from "react-toastify";toast
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
-
 const Gerenciamento = () => {
-
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [produtos, setProdutos] = useState([]); // Estado para armazenar os produtos
   const [formData, setFormData] = useState({
     nome: "",
     descricao: "",
@@ -35,25 +30,36 @@ const Gerenciamento = () => {
       setTimeout(() => {
         navigate("/login", { state: { from: "gerenciamento" } });
       }, 2000);
+    } else {
+      fetchProdutos(userId); // Chama fetchProdutos com userId
     }
   }, [navigate]);
-  const handleLogout = () => {
-    // Remove o ID do usuário da sessão
-    localStorage.removeItem("userId");
   
-    // Redireciona para a página inicial ou de login
-    navigate("/", { replace: true });
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      setIsLoading(false);
+    }, 3800);
+    return () => clearTimeout(timeout); // Limpeza do timeout
+  }, []);
+
+  const fetchProdutos = async (userId) => {
+    try {
+      const response = await fetch(`http://localhost:8080/api/produtos/usuario/${userId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setProdutos(data); // Atualiza o estado com os produtos recebidos
+      } else {
+        console.error("Erro ao buscar os produtos.");
+      }
+    } catch (error) {
+      console.error("Erro ao conectar-se ao servidor:", error);
+    }
   };
 
   const toggleMenu = () => {
     setMenuOpen(!menuOpen);
   };
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 3800);
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -65,35 +71,26 @@ const Gerenciamento = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    // Garantir que a quantidade seja do tipo inteiro e o preço seja float
     const quantityAsInt = parseInt(formData.quantidade, 10);
     const priceAsFloat = parseFloat(formData.preco);
-  
     if (isNaN(quantityAsInt) || isNaN(priceAsFloat)) {
       alert("Quantidade ou preço devem ser números válidos.");
       return;
     }
-  
-    // Obtenha o ID do usuário armazenado no localStorage
+
     const usuarioId = localStorage.getItem("userId");
-  
-    // Se não houver um usuarioId, exiba um erro
     if (!usuarioId) {
       alert("Usuário não autenticado. Faça login para continuar.");
       return;
     }
-  
-    // Atualizar os dados do produto com a quantidade, preço e usuarioId
+
     const updatedFormData = {
       ...formData,
       quantidade: quantityAsInt,
       preco: priceAsFloat,
-      usuarioId: usuarioId, // Vincula o produto ao usuário logado
+      usuarioId: usuarioId,
     };
-  
-    console.log("Dados enviados:", updatedFormData);  // Para depuração
-  
+
     try {
       const response = await fetch("http://localhost:8080/api/produtos", {
         method: "POST",
@@ -102,14 +99,13 @@ const Gerenciamento = () => {
         },
         body: JSON.stringify(updatedFormData),
       });
-  
+
       if (response.ok) {
         toast.success('Produto cadastrado com sucesso', {
           position: 'top-right',
           autoClose: 1000,
         });
-
-              setFormData({
+        setFormData({
           nome: "",
           descricao: "",
           quantidade: "",
@@ -117,22 +113,17 @@ const Gerenciamento = () => {
           status: "ativo",
           usuarioId: "",
         });
+        fetchProdutos(); // Atualiza a lista de produtos após adicionar um novo
       } else {
         const errorData = await response.json();
         console.error(errorData);
-        toast.warning('Produto Não cadastrado! Verifique os campos', {
-          position: 'top-right',
-          autoClose: 1000,
-        });
+        alert("Erro ao adicionar o produto.");
       }
     } catch (error) {
       console.error("Erro:", error);
       alert("Erro ao conectar-se ao servidor.");
     }
   };
-  
-  
-
 
   if (isLoading) {
     return <Loader />;
@@ -140,7 +131,6 @@ const Gerenciamento = () => {
 
   return (
     <div className="container-fluid">
-
       <div className="row">
         <div
           className="col-12 d-lg-none bg-menu-mob"
@@ -232,10 +222,10 @@ const Gerenciamento = () => {
             {" "}
             <li className="nav-item">
               {" "}
-              <Link className="nav-link"  onClick={handleLogout} >
+              <Link className="nav-link"     >
                 {" "}
                 <img
-                 onClick={handleLogout}
+                   
                   src="img/icon-sair.png"
                   alt="Logout Icon"
                   style={{
@@ -252,14 +242,26 @@ const Gerenciamento = () => {
         </div>
 
         <div className="col-lg-10">
-          <h1>Gerenciamento</h1>
-          <p>Aqui está o conteúdo de gerenciamento.</p>
+           <h2>Produtos cadastrados</h2>
+           {produtos.length === 0 ? (
+            <p>Nenhum produto cadastrado ainda.</p>
+          ) : (
+            <ul>
+              {produtos.map((produto) => (
+                <li key={produto.id}>
+                  {produto.nome} - {produto.descricao} - R${produto.preco} 
+                  <button onClick={() => handleEditar(produto.id)}>Editar</button>
+                  <button onClick={() => handleDeletar(produto.id)}>Deletar</button>
+                </li>
+              ))}
+            </ul>
+          )}
+
         </div>
       </div>
       <ToastContainer />
 
     </div>
-    
   );
 };
 
