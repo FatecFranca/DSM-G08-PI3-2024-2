@@ -1,16 +1,25 @@
-import { Link,useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import 'tiny-slider/dist/tiny-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/login.css'
 import 'react-toastify/dist/ReactToastify.css';
 import Notification from './Notification';
 import { ToastContainer, toast } from 'react-toastify';
+import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect,useState } from 'react';
+
 
 
 
 
 const Login = () => {
-  const navigate = useNavigate();const handleLoginSuccess = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+
+
+ const handleLoginSuccess = () => {
     toast.success('Login realizado com sucesso! Você está sendo redirecionado para o gerenciamento', {
       position: 'top-right',
       autoClose: 3000,

@@ -4,6 +4,8 @@ import 'tiny-slider/dist/tiny-slider.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '../styles/gerenciamento.css';
+import { useNavigate } from 'react-router-dom';
+
 import { useEffect } from 'react';
 
 import Loader from './Loader';
@@ -14,6 +16,19 @@ const Gerenciamento = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  const userId = localStorage.getItem('userId');
+  if (!userId) {
+    setTimeout(() => {
+      navigate('/login', { state: { from: 'gerenciamento' } }
+        
+      ); 
+    }, 2000); 
+  }
+}, [navigate]);
+
 
 
 
