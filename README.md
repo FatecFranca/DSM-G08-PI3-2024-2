@@ -51,6 +51,10 @@ Oferece uma funcionalidade de pesquisa que permite encontrar produtos por nome o
 
 
 # Site final
-Deploy feito em Render: https://dsm-primeinventory.onrender.com
+Deploy feito em Render:
+https://dsm-primeinventory.onrender.com
+
+**DEVE SER ABERTO O SITE DO BACK-END PARA LIGAÇÃO DE FRONT COM BACK ACONTECER:**
+https://dashboard.render.com/web/srv-csv4n72j1k6c73c1apkg/logs
 
 **Utilizar um gerador de CPF para fazer cadastro no site**
