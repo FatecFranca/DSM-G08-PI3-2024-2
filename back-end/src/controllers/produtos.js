@@ -79,30 +79,44 @@ controller.retrieveOne = async function(req, res) {
   }
 }
 
-controller.update = async function(req, res) {
+controller.update = async function (req, res) {
   try {
-    // Busca o documento pelo id passado como parâmetro e, caso
-    // o documento seja encontrado, atualiza-o com as informações
-    // passadas em req.body
-    const result = await prisma.produto.update({
+    // Busca o produto original para verificar a quantidade antes da atualização
+    const produtoOriginal = await prisma.produto.findUnique({
       where: { id: req.params.id },
-      data: req.body
-    })
+    });
 
-    // Encontrou e atualizou ~> retorna HTTP 204: No Content
-    if(result) res.status(204).end()
-    // Não encontrou (e não atualizou) ~> retorna HTTP 404: Not Found
-    else res.status(404).end()
-  }
-  catch(error) {
-    // Deu errado: exibe o erro no console do back-end
-    console.error(error)
+    // Atualiza o produto com os dados enviados
+    const produtoAtualizado = await prisma.produto.update({
+      where: { id: req.params.id },
+      data: req.body,
+    });
 
-    // Envia o erro ao front-end, com status 500
-    // HTTP 500: Internal Server Error
-    res.status(500).send(error)
+    // Verifica se a quantidade foi alterada
+    if (req.body.quantidade !== undefined && req.body.quantidade !== produtoOriginal.quantidade) {
+      const diferencaQuantidade = req.body.quantidade - produtoOriginal.quantidade;
+      const tipoMovimentacao = diferencaQuantidade > 0 ? "entrada" : "saida";
+
+      // Cria uma movimentação de estoque
+      await prisma.movimentacaoEstoque.create({
+        data: {
+          saida_entrada: tipoMovimentacao,
+          quantidade: Math.abs(diferencaQuantidade),
+          produtoId: produtoAtualizado.id,
+        },
+      });
+    }
+
+    // Retorna HTTP 204: No Content
+    res.status(204).end();
+  } catch (error) {
+    // Exibe o erro no console do back-end
+    console.error(error);
+
+    // Envia o erro ao front-end com status 500
+    res.status(500).send(error);
   }
-}
+};
 
 controller.delete = async function(req, res) {
   try {
