@@ -1,7 +1,12 @@
 import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
-import path from 'path';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+
+// Substitutos para __dirname e __filename no contexto de ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
@@ -24,7 +29,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// Rota para a página inicial, para testar se a API está funcionando
+// Rota inicial para verificar o status do servidor
 app.get('/', (req, res) => {
   res.send('Servidor está funcionando!');
 });
@@ -36,19 +41,20 @@ app.use('/api/movimentacoes', movimentacoesRouter);
 app.use('/api/usuarios', usuariosRouter);
 app.use('/api/produtos', produtosRouter);
 
-// Fallback para rotas inexistentes (deve ser a última rota)
+// Configuração para produção: servir o frontend
+if (process.env.NODE_ENV === 'production') {
+  // Define a pasta onde os arquivos estáticos do frontend estão localizados
+  app.use(express.static(join(__dirname, '../dist')));
+
+  // Para todas as rotas que não são APIs, serve o arquivo index.html
+  app.get('*', (req, res) => {
+    res.sendFile(join(__dirname, '../dist/index.html'));
+  });
+}
+
+// Tratamento para rotas inexistentes
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint não encontrado' });
 });
-
-// Serve os arquivos estáticos do frontend em produção
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist')));  // Caminho da build do Vite
-
-  // Serve o index.html para todas as requisições que não forem APIs
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
-}
 
 export default app;
