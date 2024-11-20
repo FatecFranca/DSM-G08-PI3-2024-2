@@ -2,6 +2,7 @@ import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
@@ -10,6 +11,10 @@ import usuariosRouter from './routes/usuario.js';
 import produtosRouter from './routes/produtos.js';
 
 const app = express();
+
+// Obtenção do caminho do diretório atual de forma compatível com ES Modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Middlewares
 app.use(logger('dev'));
