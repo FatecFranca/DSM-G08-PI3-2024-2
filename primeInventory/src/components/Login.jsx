@@ -91,7 +91,7 @@ const Login = () => {
                     </div>
                     <form  onSubmit={handleLogin}>
                       <div className="mb-5">
-                        <label htmlFor="email" className="form-label">
+                        <label htmlFor="email" className="form-label text-black">
                           Email:
                         </label>
                         <input
@@ -103,7 +103,7 @@ const Login = () => {
                         />
                       </div>
                       <div className="mb-3">
-                        <label htmlFor="senha" className="form-label">
+                        <label htmlFor="senha" className="form-label text-black">
                           Senha:
                         </label>
                         <input
