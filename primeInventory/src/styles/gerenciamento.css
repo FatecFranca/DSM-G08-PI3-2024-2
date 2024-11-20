@@ -45,9 +45,59 @@
 
 .sair-gerenciamento {
   list-style: none;
-
 }
 
 .sair-gerenciamento .nav-item .nav-link {
   padding: 0px;
+}
+
+.section-edition form {
+  margin-top: 32px;
+}
+
+form .form-label {
+  color: #ffffff;
+}
+
+.section-gerenciamento {
+  background-color: #eee !important;
+}
+
+.section-gerenciamento h2 {
+  margin: 16px 0px;
+}
+
+.section-gerenciamento ul {
+  list-style: decimal;
+}
+
+.section-gerenciamento ul li {
+  margin: 8px 0px;
+  font-size: 16px;
+  color: #000000;
+  font-weight: 500;
+}
+
+.section-gerenciamento ul li button {
+  margin-left: 16px;
+}
+
+.section-gerenciamento ul li .editar {
+  background-color: #009AED;
+  padding: 2px 18px;
+  border: none;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 18px;
+  border-radius: 6px;
+}
+
+.section-gerenciamento ul li .deletar {
+  background-color: #E74C3C;
+  padding: 2px 18px;
+  border: none;
+  color: #ffffff;
+  font-weight: 400;
+  font-size: 18px;
+  border-radius: 6px;
 }

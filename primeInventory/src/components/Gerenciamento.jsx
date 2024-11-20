@@ -9,6 +9,8 @@ import { toast } from "react-toastify";toast
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const userId = localStorage.getItem("userId");
+
 const Gerenciamento = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,7 +37,6 @@ const Gerenciamento = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const userId = localStorage.getItem("userId");
     if (!userId) {
       setTimeout(() => {
         navigate("/login", { state: { from: "gerenciamento" } });
@@ -107,7 +108,7 @@ const Gerenciamento = () => {
             position: 'top-right',
             autoClose: 1000,
           });
-          fetchProdutos(); // Atualiza a lista de produtos após deletar
+          fetchProdutos(userId); // Atualiza a lista de produtos após deletar
         } else {
           alert("Erro ao deletar o produto.");
         }
@@ -170,7 +171,7 @@ const Gerenciamento = () => {
           status: "ativo",
           usuarioId: "",
         });
-        fetchProdutos(); // Atualiza a lista de produtos
+        fetchProdutos(userId); // Atualiza a lista de produtos
       } else {
         const errorData = await response.json();
         console.error(errorData);
@@ -301,22 +302,23 @@ const Gerenciamento = () => {
           </ul>
         </div>
 
-        <div className="col-lg-10">
-           <h2>Produtos cadastrados</h2>
-           {produtos.length === 0 ? (
+        <div className="col-lg-10 section-gerenciamento">
+          <h2>Produtos cadastrados</h2>
+          {produtos.length === 0 ? (
             <p>Nenhum produto cadastrado ainda.</p>
           ) : (
             <ul>
               {produtos.map((produto) => (
                 <li key={produto.id}>
-                  {produto.nome} - {produto.descricao} - R${produto.preco} 
-                  <button onClick={() => handleEditar(produto.id)}>Editar</button>
-                  <button onClick={() => handleDeletar(produto.id)}>Deletar</button>
+                  Produto: {produto.nome.charAt(0).toUpperCase() + produto.nome.slice(1).toLowerCase()} - 
+                  Descrição: {produto.descricao.charAt(0).toUpperCase() + produto.descricao.slice(1).toLowerCase()} - 
+                  Preço: R${produto.preco} - Quantidade: {produto.quantidade}
+                  <button className="editar" onClick={() => handleEditar(produto.id)}>Editar</button>
+                  <button className="deletar" onClick={() => handleDeletar(produto.id)}>Deletar</button>
                 </li>
               ))}
             </ul>
           )}
-
         </div>
       </div>
       <ToastContainer />
