@@ -56,7 +56,7 @@ const Gerenciamento = () => {
 
   const fetchProdutos = async (userId) => {
     try {
-      const response = await fetch(`http://localhost:8080/api/produtos/usuario/${userId}`);
+      const response = await fetch(`http://localhost:10000/api/produtos/usuario/${userId}`);
       if (response.ok) {
         const data = await response.json();
         setProdutos(data); // Atualiza o estado com os produtos recebidos
@@ -100,7 +100,7 @@ const Gerenciamento = () => {
     const userId = localStorage.getItem("userId");
     if (window.confirm("Tem certeza de que deseja deletar este produto?")) {
       try {
-        const response = await fetch(`http://localhost:8080/api/produtos/${id}`, {
+        const response = await fetch(`http://localhost:10000/api/produtos/${id}`, {
           method: "DELETE",
         });
   
@@ -155,8 +155,8 @@ const Gerenciamento = () => {
     try {
       const method = formData.id ? "PUT" : "POST";
       const url = formData.id
-        ? `http://localhost:8080/api/produtos/${formData.id}`
-        : "http://localhost:8080/api/produtos";
+        ? `http://localhost:10000/api/produtos/${formData.id}`
+        : "http://localhost:10000/api/produtos";
   
       const response = await fetch(url, {
         method,
