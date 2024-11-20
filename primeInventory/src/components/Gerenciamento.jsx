@@ -10,9 +10,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ImprimirProdutos from "./ImprimirProdutos";
 
-
-const userId = localStorage.getItem("userId");
-
 const Gerenciamento = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
@@ -39,6 +36,7 @@ const Gerenciamento = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const userId = localStorage.getItem("userId");
     if (!userId) {
       setTimeout(() => {
         navigate("/login", { state: { from: "gerenciamento" } });
@@ -99,6 +97,7 @@ const Gerenciamento = () => {
   
 
   const handleDeletar = async (id) => {
+    const userId = localStorage.getItem("userId");
     if (window.confirm("Tem certeza de que deseja deletar este produto?")) {
       try {
         const response = await fetch(`http://localhost:8080/api/produtos/${id}`, {
@@ -125,6 +124,7 @@ const Gerenciamento = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const userId = localStorage.getItem("userId");
   
     const quantityAsInt = parseInt(formData.quantidade, 10);
     const priceAsFloat = parseFloat(formData.preco);
@@ -134,7 +134,7 @@ const Gerenciamento = () => {
       return;
     }
   
-    const usuarioId = localStorage.getItem("userId");
+    const usuarioId = userId;
     if (!usuarioId) {
       alert("Usuário não autenticado. Faça login para continuar.");
       return;
@@ -180,7 +180,7 @@ const Gerenciamento = () => {
           status: "ativo",
           usuarioId,
         });
-        fetchProdutos(usuarioId); // Atualiza a lista de produtos
+        fetchProdutos(userId); // Atualiza a lista de produtos
       } else {
         const errorData = await response.json();
         console.error(errorData);
