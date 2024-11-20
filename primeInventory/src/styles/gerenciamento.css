@@ -51,3 +51,9 @@
 .sair-gerenciamento .nav-item .nav-link {
   padding: 0px;
 }
+
+.imprimir{
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+}

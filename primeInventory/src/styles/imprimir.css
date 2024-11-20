@@ -1,0 +1,13 @@
+table {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  table th {
+    background-color: #337e43;
+    color: #fff;
+  }
+  
+  table td {
+    color: #333;
+  }

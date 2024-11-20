@@ -8,6 +8,8 @@ import Loader from "./Loader";
 import { toast } from "react-toastify";toast
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ImprimirProdutos from "./ImprimirProdutos";
+
 
 const Gerenciamento = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -227,6 +229,13 @@ const Gerenciamento = () => {
               Adicionar
             </button>
           </form>
+          <ul className="mt-5 imprimir d-flex p-0 m-0 ">
+          <li className="nav-link">
+          {" "}
+
+          <ImprimirProdutos produtos={produtos}   />
+          </li>
+          </ul>
 
           <ul style={{ padding: "0px" }} className="sair-gerenciamento mt-5">
             {" "}
@@ -251,6 +260,7 @@ const Gerenciamento = () => {
               </Link>{" "}
             </li>{" "}
           </ul>
+          
         </div>
 
         <div className="col-lg-10">
@@ -262,8 +272,8 @@ const Gerenciamento = () => {
               {produtos.map((produto) => (
                 <li key={produto.id}>
                   {produto.nome} - {produto.descricao} - R${produto.preco} 
-                  <button onClick={() => handleEditar(produto.id)}>Editar</button>
-                  <button onClick={() => handleDeletar(produto.id)}>Deletar</button>
+                  <button  className=" text-white btn btn-info"onClick={() => handleEditar(produto.id)}>Editar</button>
+                  <button className="  btn btn-danger" onClick={() => handleDeletar(produto.id)}>Deletar</button>
                 </li>
               ))}
             </ul>
