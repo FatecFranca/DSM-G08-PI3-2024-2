@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom';
 import IMask from 'imask'; // Importação do IMask
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../styles/cadastro.css';
+import { toast } from "react-toastify";toast
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Cadastro = () => {
   const navigate = useNavigate(); // Hook para redirecionar
@@ -63,7 +66,13 @@ const Cadastro = () => {
       });
 
       if (response.ok) {
-        navigate('/login'); // Redireciona para gerenciamento após cadastro
+        toast.success("Seu cadastro foi realizado com sucesso, você será redirecionado para o login <br>  para confirmar o cadastro", {
+          position: "top-right",
+          autoClose: 1000,
+        });
+        setTimeout(() => {
+          navigate("/login"); 
+        }, 1500);
       } else {
         const { error } = await response.json();
         setErrorMessage(error || 'Erro ao realizar cadastro');
