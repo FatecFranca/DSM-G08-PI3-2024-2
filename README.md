@@ -52,3 +52,5 @@ Oferece uma funcionalidade de pesquisa que permite encontrar produtos por nome o
 
 # Site final
 Deploy feito em Render: https://dsm-primeinventory.onrender.com
+
+**Utilizar um gerador de CPF para fazer cadastro no site**
