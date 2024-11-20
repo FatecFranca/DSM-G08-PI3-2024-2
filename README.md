@@ -17,7 +17,7 @@ https://courageous-wood-52f.notion.site/PrimeInventory-13fe06c0218380248e55f4bf9
 
 # Video de apresentação
 
-https://www.youtube.com/watch?v=CZKqo-geHDU
+https://www.youtube.com/watch?v=As6EPul1K40
 
 
 ## Visão Geral
