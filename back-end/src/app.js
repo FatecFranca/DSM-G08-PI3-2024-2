@@ -2,6 +2,7 @@ import express, { json, urlencoded } from 'express';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import path from 'path';
+import { fileURLToPath } from 'url'; // Import necessário para __dirname em ES Modules
 
 import indexRouter from './routes/index.js';
 import usersRouter from './routes/users.js';
@@ -10,6 +11,9 @@ import usuariosRouter from './routes/usuario.js';
 import produtosRouter from './routes/produtos.js';
 
 const app = express();
+
+// Define o equivalente a __dirname para ES Modules
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // Middlewares
 app.use(logger('dev'));
@@ -36,19 +40,20 @@ app.use('/api/movimentacoes', movimentacoesRouter);
 app.use('/api/usuarios', usuariosRouter);
 app.use('/api/produtos', produtosRouter);
 
-// Fallback para rotas inexistentes (deve ser a última rota)
+// Serve os arquivos estáticos do frontend em produção
+if (process.env.NODE_ENV === 'production') {
+  const distPath = path.join(__dirname, '../primeInventory/public');
+  app.use(express.static(distPath)); // Serve arquivos estáticos do build
+
+  // Serve o index.html para todas as rotas não definidas
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(distPath, 'index.html'));
+  });
+}
+
+// Fallback para rotas inexistentes
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint não encontrado' });
 });
-
-// Serve os arquivos estáticos do frontend em produção
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, 'dist')));  // Caminho da build do Vite
-
-  // Serve o index.html para todas as requisições que não forem APIs
-  app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist', 'index.html'));
-  });
-}
 
 export default app;
