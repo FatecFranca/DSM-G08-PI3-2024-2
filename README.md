@@ -26,10 +26,10 @@ O Prime Inventory é um sistema de gestão de estoque desenvolvido para facilita
 # Tecnologias Utilizadas
 ## Frontend:
 
-HTML
-CSS
-Bootstrap
-VITE.js
+HTML |
+CSS |
+Bootstrap |
+VITE.js |
 
 ## Backend:
 
@@ -51,5 +51,4 @@ Oferece uma funcionalidade de pesquisa que permite encontrar produtos por nome o
 
 
 # Site final
-
-
+Deploy feito em Render: https://dsm-primeinventory.onrender.com
